@@ -177,3 +177,28 @@ db.products.find({
     $ne: "food",
   },
 });
+
+// Element Query Operator
+// $exists     // Mencocokkan document yang memiliki field tersebut
+// $type       // Mencocokkan document yang memiliki type field tersebut
+
+// SELECT * FROM products WHERE category NOT NULL
+db.products.find({
+  category: {
+    $exists: false,
+  },
+});
+
+// SELECT * FROM products WHERE type(category) = "string"
+db.products.find({
+  category: {
+    $type: "string",
+  },
+});
+
+// SELECT * FROM products WHERE type(price) IN ("int", "long")
+db.products.find({
+  price: {
+    $type: ["int", "long"],
+  },
+});
