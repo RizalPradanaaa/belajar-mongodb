@@ -135,3 +135,45 @@ db.products.find({
     $gt: 100000,
   },
 });
+
+// Logical Query Operator
+// $and    // Menggabungkan query dengan operasi AND, mengembalikan document jika semua kondisi benar
+// $or     // Menggabungkan query dengan operasi OR, mengembalikan document jika salah satu kondisi benar
+// $nor    // Menggabungkan query dengan operasi NOR, mengembalikan document yang gagal di semua kondisi
+// $not    // Membalikkan kondisi, mengembalikan document yang tidak sesuai kondisi
+
+// SELECT * FROM products WHERE category IN ("handphone", "laptop") AND price >= 100000
+db.products.find({
+  $and: [
+    {
+      category: {
+        $in: ["handphone", "laptop"],
+      },
+    },
+    {
+      price: {
+        $gt: 100000,
+      },
+    },
+  ],
+});
+
+// SELECT * FROM products WHERE category NOT IN ("handphone", "laptop")
+db.products.find({
+  category: {
+    $not: {
+      $in: ["handphone", "laptop"],
+    },
+  },
+});
+
+// SELECT * FROM product WHERE price BETWEEN 1000000 AND 2500000 AND category != food
+db.products.find({
+  price: {
+    $gte: 10000000,
+    $lte: 25000000,
+  },
+  category: {
+    $ne: "food",
+  },
+});
