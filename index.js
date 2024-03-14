@@ -68,3 +68,21 @@ db.orders.insertOne({
     },
   ],
 });
+
+// Query Document
+// db.<collection>.find(query)   // Mencari document dengan query
+
+// SELECT * FROM customers WHERE _id = "Rizal"
+db.customers.find({
+  _id: "Rizal",
+});
+
+// SELECT * FROM products WHERE price = 2000
+db.products.find({
+  price: 2000,
+});
+
+// SELECT * FROM orders WHERE items.product_id = 1
+db.orders.find({
+  "items.product_id": 1,
+});
