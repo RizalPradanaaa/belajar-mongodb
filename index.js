@@ -86,3 +86,52 @@ db.products.find({
 db.orders.find({
   "items.product_id": 1,
 });
+
+// Comparison Query Operator
+// $eq      // Membandingkan value dengan value lain
+// $gt      // Membandingkan value lebih besar dari value lain
+// $gte     // Membandingkan value lebih besar atau sama dengan value lain
+// $lt      // Membandingkan value lebih kecil dari value lain
+// $lte     // Membandingkan value lebih kecil atau sama dengan value lain
+
+// $in      // Membandingkan value dengan value yang ada di array
+// $nin     // Membandingkan value tidak ada dalam value yang ada di array
+// $ne      // Membandingkan value tidak sama dengan value lain
+
+db.products.insertMany([
+  {
+    _id: 3,
+    name: "Pop Mie Rasa Bakso",
+    price: new NumberLong("2500"),
+    category: "food",
+  },
+  {
+    _id: 4,
+    name: "Samsung Galaxy S9+",
+    price: new NumberLong("10000000"),
+    category: "handphone",
+  },
+  {
+    _id: 5,
+    name: "Acer Predator XXI",
+    price: new NumberLong("25000000"),
+    category: "laptop",
+  },
+]);
+
+// SELECT * FROM products WHERE price >= 2000
+db.products.find({
+  price: {
+    $gt: 2000,
+  },
+});
+
+// SELECT * FROM products WHERE category IN ("handphone", "laptop") AND price >= 100000
+db.products.find({
+  category: {
+    $in: ["handphone", "laptop"],
+  },
+  price: {
+    $gt: 100000,
+  },
+});
