@@ -276,3 +276,58 @@ db.customers.find({
     return $this._id == $this.name;
   },
 });
+
+// Array Query Operator
+// $all        // Mencocokkan array yang mengandung elemen-elemen tertentu
+// $elemMatch  // Mengambil document jika tiap element di array memenuhi kondisi tertentu
+// $size       // Mengambil document jika ukuran array sesuai
+
+db.products.insertMany([
+  {
+    _id: 6,
+    name: "Logitech Wireless Mouse",
+    price: new NumberLong("175000"),
+    category: "mouse",
+    tags: ["logitech", "mouse", "accessories"],
+  },
+  {
+    _id: 7,
+    name: "Cooler Pad Gaming",
+    price: new NumberLong("200000"),
+    category: "laptop",
+    tags: ["cooler", "laptop", "accessories", "fan"],
+  },
+  {
+    _id: 8,
+    name: "Samsung Curved Monitor",
+    price: new NumberLong("25000000"),
+    category: "computer",
+    tags: ["samsung", "monitor", "computer"],
+  },
+]);
+
+// $all
+// SELECT * FROM products WHERE (tags = "samsung" AND tags = "monitor")
+db.products.find({
+  tags: {
+    $all: ["samsung", "monitor"],
+  },
+});
+
+// $elemMatch
+// SELECT * FROM products WHERE tags IN ("samsung", "logitech")
+db.products.find({
+  tags: {
+    $elemMatch: {
+      $in: ["samsung", "logitech"],
+    },
+  },
+});
+
+// $size
+// SELECT * FROM products WHERE count(tags) = 3
+db.products.find({
+  tags: {
+    $size: 3,
+  },
+});
