@@ -425,3 +425,69 @@ db.products.find().sort({
   category: 1,
   name: -1,
 });
+
+// Update Document
+// updateOne()     // Mengubah satu document
+// updateMany()    // Mengubah banyak document sekaligus
+// replaceOne()    // Mengubah total satu document dengan document baru
+
+// updateOne()
+// UPDATE products SET category = "food" WHERE _id = 1
+db.products.updateOne(
+  {
+    _id: 1,
+  },
+  {
+    $set: {
+      category: "food",
+    },
+  }
+);
+// UPDATE products SET category = "food" WHERE _id = 2
+db.products.updateOne(
+  {
+    _id: 2,
+  },
+  {
+    $set: {
+      category: "food",
+    },
+  }
+);
+
+// updateMany()
+// UPDATE products SET tags = ["food"] WHERE category = "food" AND tags IS NULL
+db.products.updateMany(
+  {
+    category: {
+      $eq: "food",
+    },
+    tags: {
+      $exists: false,
+    },
+  },
+  {
+    $set: {
+      tags: ["food"],
+    },
+  }
+);
+
+// replaceOne()
+db.products.insertOne({
+  _id: 9,
+  name: "ups salah",
+  wrong: "salah lagi",
+});
+
+db.products.replaceOne(
+  {
+    _id: 9,
+  },
+  {
+    name: "Adidas Samba",
+    price: new NumberLong("1700000"),
+    category: "shoes",
+    tags: ["adidas", "shoes", "running"],
+  }
+);
