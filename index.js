@@ -331,3 +331,69 @@ db.products.find({
     $size: 3,
   },
 });
+
+// Projection Operator
+// SELECT _id, name, category FROM products
+db.products.find(
+  {},
+  {
+    name: 1,
+    category: 1,
+  }
+);
+// SELECT _id, name, price, category FROM products
+db.products.find(
+  {},
+  {
+    tags: 0,
+  }
+);
+
+// $           // Limit array hanya mengembalikan data pertama yang match denganarray operator
+// $elemMatch  // Limit array hanya mengembalikan data pertama yang match dengankondisi query
+// $meta       // Mengembalikan informasi metadata yang didapat dari setiapmatching document
+// $slice      // Mengontrol jumlah data yang ditampilkan pada array
+
+// $elemMatch
+// SELECT _id, name, tags[first] FROM products
+db.products.find(
+  {},
+  {
+    name: 1,
+    tags: {
+      $elemMatch: {
+        $in: ["samsung", "logitech"],
+      },
+    },
+  }
+);
+
+// $
+// SELECT _id, name, tags FROM products WHERE tags IS NOT NULL
+db.products.find(
+  {
+    tags: {
+      $exists: true,
+    },
+  },
+  {
+    name: 1,
+    "tags.$": 1,
+  }
+);
+
+//  $slice
+// SELECT _id, name, tags[0-1] FROM products WHERE tags IS NOT NULL
+db.products.find(
+  {
+    tags: {
+      $exists: true,
+    },
+  },
+  {
+    name: 1,
+    tags: {
+      $slice: 2,
+    },
+  }
+);
