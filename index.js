@@ -202,3 +202,77 @@ db.products.find({
     $type: ["int", "long"],
   },
 });
+
+// Evaluation Query Operator
+// $expr           // Menggunakan aggregation operation
+// $jsonSchema     // Validasi document sesuai dengan JSON schema : https://json-schema.org/
+// $mod            // Melakukan operasi modulo
+// $regex          // Mengambil document sesuai dengan regular expression (PCRE)
+// $text           // Melakukan pencarian menggunakan text
+// $where          //  Mengambil document dengan JavaScript Function
+
+// $expr operator
+// SELECT * FROM customers WHERE _id = name
+db.customers.find({
+  $expr: {
+    $eq: ["$_id", "$name"],
+  },
+});
+
+// $jsonSchema operator
+// SELECT * FROM products WHERE name IS NOT NULL AND category IS NOT NULL
+db.products.find({
+  $jsonSchema: {
+    required: ["name", "category"],
+  },
+});
+// SELECT * FROM products WHERE name IS NOT NULL AND type(name) = "string" AND type(price) = "number"
+db.products.find({
+  $jsonSchema: {
+    required: ["name"],
+    properties: {
+      name: {
+        type: "string",
+      },
+      price: {
+        type: "number",
+      },
+    },
+  },
+});
+
+// $mod operator
+// SELECT * FROM products WHERE price % 5 = 0
+db.products.find({
+  price: {
+    $mod: [5, 0],
+  },
+});
+// SELECT * FROM products WHERE price % 1000000 = 0
+db.products.find({
+  price: {
+    $mod: [1000000, 0],
+  },
+});
+
+// $regex operator
+// SELECT * FROM products WHERE name LIKE %mie%
+db.products.find({
+  name: {
+    $regex: /mie/,
+    $options: "i",
+  },
+});
+// SELECT * FROM products WHERE name LIKE Mie%
+db.products.find({
+  name: {
+    $regex: /^Mie/,
+  },
+});
+
+// $where operator
+db.customers.find({
+  $where: function () {
+    return $this._id == $this.name;
+  },
+});
