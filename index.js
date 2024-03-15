@@ -397,3 +397,31 @@ db.products.find(
     },
   }
 );
+
+// Query Modifier
+// count()     // Mengambil jumlah data hasil query
+// limit(size) // Membatasi jumlah data yang didapat dari query
+// skip(size)  // Menghiraukan data pertama hasil query sejumlah yang ditentukan
+// sort(query) // Mengurutkan hasil data query
+
+// count()
+// SELECT count(*) FROM products
+db.products.find().count();
+
+// limit()
+// SELECT * FROM products LIMIT 4
+db.products.find().limit(4);
+
+// skip()
+// SELECT * FROM products OFFSET 2
+db.products.find().skip(2);
+
+// SELECT * FRON LIMIT 2 OFFSET 4
+db.products.find().limit(2).skip(4);
+
+// sort(query)
+// SELECT * FROM products ORDER BY category ASC, name DESC
+db.products.find().sort({
+  category: 1,
+  name: -1,
+});
