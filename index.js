@@ -571,3 +571,144 @@ db.products.updateMany(
     },
   }
 );
+
+// Array Update Operator
+// $                   // Mengupdate data array pertama sesuai kondisi query
+// $[]                 // Mengupdate semua data array sesuai kondisi query
+// $[<identifier>]     // </identifier> Mengupdate semua data array yang sesuai kondisi arrayFilters
+// <index>             // Mengupdate data array sesuai dengan nomor index
+// $addToset           // Menambahkan value ke array, dihiraukan jika sudah ada
+// $pop                // Menghapus element pertama (-1) atau terakhir (1) array
+// $pull               // Menghapus semua element di array yang sesuai kondisi
+// $push               // Menambahkan element ke array
+// $pullAll            // Menghapus semua element di array
+
+// $    operator
+// UPDATE products SET ratings = [90, 80,70]
+db.products.updateMany(
+  {},
+  {
+    $set: {
+      ratings: [90, 80, 70],
+    },
+  }
+);
+// Update first array ratings
+db.products.updateMany(
+  {
+    ratings: 90,
+  },
+  {
+    $set: {
+      "ratings.$": 100,
+    },
+  }
+);
+
+// $[]  operator
+// update semua array
+db.products.updateMany(
+  {},
+  {
+    $set: {
+      "ratings.$[]": 100,
+    },
+  }
+);
+
+// $[<identifier>]  update semua element sesuai arrayFilters
+db.products.updateMany(
+  {},
+  {
+    $set: {
+      "ratings.$[element]": 100,
+    },
+  },
+  {
+    arrayFilters: [
+      {
+        element: {
+          $gt: 80,
+        },
+      },
+    ],
+  }
+);
+
+// <index>  update array sesuai index
+db.products.updateMany(
+  {},
+  {
+    $set: {
+      "ratings.0": 50,
+      "ratings.1": 70,
+    },
+  }
+);
+
+// $addToset
+db.products.updateOne(
+  {
+    _id: 1,
+  },
+  {
+    $addToSet: {
+      tags: "popular",
+    },
+  }
+);
+
+// $pop
+// remove fisrt array
+db.products.updateOne(
+  {
+    _id: 1,
+  },
+  {
+    $pop: {
+      ratings: -1,
+    },
+  }
+);
+// remove last array
+db.products.updateOne(
+  {
+    _id: 1,
+  },
+  {
+    $pop: {
+      ratings: 1,
+    },
+  }
+);
+
+// $pull remove ratings >= 80
+db.products.updateMany(
+  {},
+  {
+    $pull: {
+      ratings: {
+        $gt: 80,
+      },
+    },
+  }
+);
+
+// $push
+db.products.updateMany(
+  {},
+  {
+    $push: {
+      ratings: 100,
+    },
+  }
+);
+// $pullAll remove element 100
+db.products.updateMany(
+  {},
+  {
+    $pullAll: {
+      ratings: [100],
+    },
+  }
+);
