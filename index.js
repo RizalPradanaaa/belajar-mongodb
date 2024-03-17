@@ -491,3 +491,83 @@ db.products.replaceOne(
     tags: ["adidas", "shoes", "running"],
   }
 );
+
+// Field Update Operator
+// $set            // Mengubah nilai field di document
+// $unset          // Menghapus field di document
+// $rename         // Mengubah nama field di document
+// $inc            // Menaikan nilai number di field sesuai dengan jumlah tertentu
+// $currentDate    // Mengubah field menjadi waktu saat ini
+
+// $set operator
+db.products.updateMany(
+  {},
+  {
+    $set: {
+      stok: 0,
+    },
+  }
+);
+
+// $inc operator
+// UPDATE products SET stok = stok + 10
+db.products.updateMany(
+  {},
+  {
+    $inc: {
+      stok: 10,
+    },
+  }
+);
+
+// $rename operator
+// ALTER TABLE customer CHANGE name full_name
+db.customers.updateMany(
+  {},
+  {
+    $rename: {
+      name: "full_name",
+    },
+  }
+);
+db.customers.updateMany(
+  {},
+  {
+    $rename: {
+      full_name: "name",
+    },
+  }
+);
+
+// $unset operator
+// UPDATE customers set wrong = 'ups'
+db.customers.updateMany(
+  {},
+  {
+    $set: {
+      wrong: "ups",
+    },
+  }
+);
+// ALTER TABLE customers DROP COLUMN  wrong
+db.customers.updateMany(
+  {},
+  {
+    $unset: {
+      wrong: "",
+    },
+  }
+);
+
+// $currentDate
+// UPDATE product SET lastModifiedDate = current_date()
+db.products.updateMany(
+  {},
+  {
+    $currentDate: {
+      lastModifiedDate: {
+        $type: "date",
+      },
+    },
+  }
+);
