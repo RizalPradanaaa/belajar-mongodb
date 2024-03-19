@@ -712,3 +712,58 @@ db.products.updateMany(
     },
   }
 );
+
+// Array Update Operator Modifier
+
+// $each Digunakan di $addToSet dan $push, untuk menambahkan multiple element
+// add trending, popular
+db.products.updateMany(
+  {},
+  {
+    $addToSet: {
+      tags: {
+        $each: ["trending", "popular"],
+      },
+    },
+  }
+);
+
+// $position Digunakan di $push untuk mengubah posisi menambahkan data
+// add hot position 1
+db.products.updateMany(
+  {},
+  {
+    $push: {
+      tags: {
+        $each: ["hot"],
+        $position: 1,
+      },
+    },
+  }
+);
+
+// $slice Digunakan di $push untuk menentukan jumlah maksimal data array
+db.products.updateMany(
+  {},
+  {
+    $push: {
+      ratings: {
+        $each: [10, 20, 30],
+        $slice: -3,
+      },
+    },
+  }
+);
+
+// $sort Digunakan untuk mengurutkan array setelah operasi $push
+db.products.updateMany(
+  {},
+  {
+    $push: {
+      ratings: {
+        $each: [50, 40, 30],
+        $sort: -1,
+      },
+    },
+  }
+);
