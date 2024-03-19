@@ -767,3 +767,37 @@ db.products.updateMany(
     },
   }
 );
+
+// Delete Document
+
+// db.<collection>.deleteOne(query) Menghapus satu document yang sesuai dengan kondisi query
+db.customers.insertOne({
+  _id: "spammer",
+  name: "spam",
+});
+
+db.customers.deleteOne({
+  _id: "spammer",
+});
+
+// db.<collection>.deleteMany(query) Menghapus banyak document yang sesuai dengan kondisi query
+db.customers.insertMany([
+  {
+    _id: "spammer1",
+    name: "spammer1",
+  },
+  {
+    _id: "spammer2",
+    name: "spammer2",
+  },
+  {
+    _id: "spammer3",
+    name: "spammer3",
+  },
+]);
+
+db.customers.deleteMany({
+  _id: {
+    $regex: "spammer",
+  },
+});
