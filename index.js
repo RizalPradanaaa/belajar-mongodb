@@ -801,3 +801,37 @@ db.customers.deleteMany({
     $regex: "spammer",
   },
 });
+
+// Bulk Write Operations
+db.customers.bulkWrite([
+  {
+    insertOne: {
+      document: {
+        _id: "rizal",
+        name: "rizal",
+      },
+    },
+  },
+  {
+    insertOne: {
+      document: {
+        _id: "nawang",
+        name: "nawang",
+      },
+    },
+  },
+  {
+    updateMany: {
+      filter: {
+        _id: {
+          $in: ["rizal", "nawang"],
+        },
+      },
+      update: {
+        $set: {
+          name: "Rizal Nawang Pradanaaa",
+        },
+      },
+    },
+  },
+]);
